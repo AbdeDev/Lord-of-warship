@@ -44,3 +44,6 @@ Comprehension du placement des navires
 - la grille est une grille de 5x5
 - les deux joueurs ont deux grilles différentes donc chacun place ses navires comme il le souhaite
 - (cette partie est un peu complexe) Comment placer un navire, les coordonneés vont de 0 a 4, pour placer un navire il faut entrer deux coordonner par exemple 0 0 ou 0 1 ou 1 0 ou 1 1 ou 4 0 etc... si votre navire est bien placé il sera afficher sur la grille, les deux navires ont deux tailles differentes, une fais 3 case et l'autre 4, n'oubliez pas que le navire ne peut etre dehors de la grille ou entrer en collision avec un autre navire que vous avez deja placé
+<img width="1440" alt="Capture d’écran 2024-07-25 à 14 43 35" src="https://github.com/user-attachments/assets/f05ed367-3038-49e3-94a1-958325d51f46">
+
+  
