@@ -155,9 +155,9 @@ class Grid
       setup_players
       setup_ships
       play_game
-      puts "Voulez-vous rejouer ? (y/n)"
+      puts "Voulez-vous rejouer ? (o/n)"
       answer = gets.chomp.downcase
-      if answer == "y"
+      if answer == "o"
         reset_grids
         start_game
       else
