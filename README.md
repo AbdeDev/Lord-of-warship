@@ -1,4 +1,4 @@
-#Lord-of-warship
+# Lord-of-warship
 
 step 1 : 
 il vous faut d'abord avoir la bonne version de ruby donc la 3.3.4
