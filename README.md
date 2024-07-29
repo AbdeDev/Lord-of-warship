@@ -1,4 +1,4 @@
-<img width="1440" alt="Capture d’écran 2024-07-29 à 18 21 44" src="https://github.com/user-attachments/assets/0978e167-7875-4ce3-8156-320c8b2331b1"># Lord-of-warship
+#Lord-of-warship
 
 step 1 : 
 il vous faut d'abord avoir la bonne version de ruby donc la 3.3.4
