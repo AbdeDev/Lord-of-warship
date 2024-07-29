@@ -47,4 +47,11 @@ Comprehension du placement des navires
 
 <img width="1440" alt="Capture d’écran 2024-07-29 à 18 21 44" src="https://github.com/user-attachments/assets/c317e819-e8a6-4943-b5e3-3848a68b34c5">
 
+step 5 : 
+Version bonus  
+
+- dans la verion bonus il y'a des ajouts comme le fait de pouvoir mettre en diagonale ou encore que la partie se joue en BO3 
+- pour jouer uniquement la verion de base il faut lancer le fichier battle.rb dans la branche dev
+- pour jouer la verion bonus il faut lancer le fichier battle.rb dans la branche dev_bonus
+
   
