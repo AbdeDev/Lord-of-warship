@@ -43,6 +43,15 @@ class Grid
     def all_ships_sunk?
       @matrix.flatten.none? { |cell| cell == "B" }
     end
+  
+    def hint
+      @matrix.each_with_index do |row, x|
+        row.each_with_index do |cell, y|
+          return [x, y] if cell == "B"
+        end
+      end
+      nil
+    end
   end
   
   class Ship
@@ -59,6 +68,9 @@ class Grid
       elsif orientation == "v"
         return false if x + @size > grid.size
         (0...@size).each { |i| return false if grid.matrix[x + i][y] != "°" }
+      elsif orientation == "d"
+        return false if x + @size > grid.size || y + @size > grid.size
+        (0...@size).each { |i| return false if grid.matrix[x + i][y + i] != "°" }
       else
         return false
       end
@@ -70,6 +82,8 @@ class Grid
         (0...@size).each { |i| grid.matrix[x][y + i] = "B" }
       elsif orientation == "v"
         (0...@size).each { |i| grid.matrix[x + i][y] = "B" }
+      elsif orientation == "d"
+        (0...@size).each { |i| grid.matrix[x + i][y + i] = "B" }
       end
     end
   end
@@ -78,6 +92,9 @@ class Grid
     def initialize
       @player1_name = ""
       @player2_name = ""
+      @player1_wins = 0
+      @player2_wins = 0
+      @consecutive_misses = 0
       reset_grids
     end
   
@@ -107,7 +124,7 @@ class Grid
       loop do
         puts "Entrez les coordonnées de départ pour le bateau de taille #{size} (format : x y) :"
         x, y = gets.chomp.split.map(&:to_i)
-        puts "Entrez l'orientation (h pour horizontal, v pour vertical) :"
+        puts "Entrez l'orientation (h pour horizontal, v pour vertical, d pour diagonal) :"
         orientation = gets.chomp
   
         if grid.place_ship(ship, x, y, orientation)
@@ -121,6 +138,8 @@ class Grid
   
     def play_game
       turn = rand(1..2)
+      @consecutive_misses = 0
+  
       loop do
         current_player_name = turn == 1 ? @player1_name : @player2_name
         current_player_grid = turn == 1 ? @player2_grid : @player1_grid
@@ -138,14 +157,27 @@ class Grid
         if valid_shot == nil
           next
         elsif valid_shot == false
+          @consecutive_misses += 1
           turn = turn == 1 ? 2 : 1
+        else
+          @consecutive_misses = 0
+        end
+  
+        if @consecutive_misses == 3
+          hint = current_player_grid.hint
+          if hint
+            puts "Indice: Essayez de tirer aux coordonnées #{hint[0]} #{hint[1]}"
+          end
+          @consecutive_misses = 0
         end
   
         if @player2_grid.all_ships_sunk?
           puts "#{@player1_name} a gagne !"
+          @player1_wins += 1
           break
         elsif @player1_grid.all_ships_sunk?
-          puts "#{@player2_name} a gagne !"
+          puts "#{@player2_name} a gagné !"
+          @player2_wins += 1
           break
         end
       end
@@ -153,17 +185,33 @@ class Grid
   
     def start_game
       setup_players
-      setup_ships
-      play_game
-      puts "Voulez-vous rejouer ? (y/n)"
-      answer = gets.chomp.downcase
-      if answer == "y"
+  
+      loop do
+        setup_ships
+        play_game
+        puts "Score actuel : #{@player1_name} #{@player1_wins} - #{@player2_name} #{@player2_wins}"
+  
+        if @player1_wins == 2
+          puts "#{@player1_name} gagne la série Best of 3 !"
+          break
+        elsif @player2_wins == 2
+          puts "#{@player2_name} gagne la série Best of 3 !"
+          break
+        elsif @player1_wins == 1 && @player2_wins == 1
+          puts "C'est l'heure du jeu décisif !"
+        else
+          puts "Voulez-vous rejouer ? (oo/n)"
+          answer = gets.chomp.downcase
+          if answer != "o"
+            puts "Merci d'avoir joué !"
+            break
+          end
+        end
+  
         reset_grids
-        start_game
-      else
-        puts "Merci d'avoir joué !"
       end
     end
   end
   
-  BattleshipGame.new.start_game  
+  BattleshipGame.new.start_game
+  
